@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "SocialsAuth"
-  spec.version      = "1.0.2"
+  spec.version      = "1.0.3"
   spec.summary      = "A framework can support socials authentication"
 
   # This description is used to generate tags and improve search results.
@@ -79,7 +79,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source       = { :path => '.' }
-  spec.source       = { :git => "https://github.com/NguyenNgocThach131193/SocialsAuth.git", :tag => "1.0.2" }
+  spec.source       = { :git => "https://github.com/NguyenNgocThach131193/SocialsAuth.git", :tag => "1.0.3" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -133,10 +133,10 @@ Pod::Spec.new do |spec|
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   spec.dependency "Firebase/Core"
-  spec.dependency "Firebase/Auth", '~> 6.2.0'
-  spec.dependency "GoogleSignIn", '~> 4.4.0'
-  spec.dependency "FBSDKLoginKit", '~> 5.2.3'
-  spec.dependency "LineSDKSwift", '~> 5.2.0'
-  spec.dependency "TwitterKit", '~> 3.4.2'
+  spec.dependency "Firebase/Auth"
+  spec.dependency "GoogleSignIn"
+  spec.dependency "FBSDKLoginKit"
+  spec.dependency "LineSDKSwift"
+  spec.dependency "TwitterKit"
 spec.swift_version = "5.0.0" 
 end
