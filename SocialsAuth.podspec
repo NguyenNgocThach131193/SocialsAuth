@@ -116,7 +116,7 @@ Pod::Spec.new do |spec|
   #  the lib prefix of their name.
   #
 
-  # spec.framework  = "SomeFramework"
+  spec.framework  = "UIKit"
   # spec.frameworks = "SomeFramework", "AnotherFramework"
 
   # spec.library   = "iconv"
@@ -132,6 +132,11 @@ Pod::Spec.new do |spec|
   # spec.requires_arc = true
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  # spec.dependency "JSONKit", "~> 1.4"
+  spec.dependency "Firebase/Core"
+  spec.dependency "Firebase/Auth"
+  spec.dependency "GoogleSignIn"
+  spec.dependency "FBSDKLoginKit"
+  spec.dependency "LineSDKSwift"
+  spec.dependency "TwitterKit"
 spec.swift_version = "5.0.0" 
 end
