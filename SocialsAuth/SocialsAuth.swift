@@ -112,7 +112,7 @@ extension SocialsAuth {
                     let credential = FacebookAuthProvider.credential(withAccessToken: tokenString)
                     complection(.success(credential))
                 } else {
-                    complection(.failure("Service.Error.DefaultMessage"))
+                    complection(.failure(SocialsAuth.defaultError))
                 }
                 break
             case .failure(let error):
@@ -142,7 +142,7 @@ extension SocialsAuth {
                 let credential = TwitterAuthProvider.credential(withToken: session.authToken, secret: session.authTokenSecret)
                 complection(.success(credential))
             } else {
-                complection(.failure("Service.Error.DefaultMessage"))
+                complection(.failure(SocialsAuth.defaultError))
             }
         }
     }
@@ -158,7 +158,7 @@ extension SocialsAuth {
             } else if let credential = credential {
                 complection(.success(credential))
             } else {
-                complection(.failure("Service.Error.DefaultMessage"))
+                complection(.failure(SocialsAuth.defaultError))
             }
         }
     }
@@ -179,11 +179,11 @@ extension SocialsAuth {
                     } else if let tokenResult = tokenResult {
                         complection(.success(tokenResult.token))
                     } else {
-                        complection(.failure(("Service.Error.DefaultMessage")))
+                        complection(.failure((SocialsAuth.defaultError)))
                     }
                 })
             } else {
-                complection(.failure(("Service.Error.DefaultMessage")))
+                complection(.failure((SocialsAuth.defaultError)))
             }
         }
     }
@@ -200,11 +200,11 @@ extension SocialsAuth {
                     } else if let tokenResult = tokenResult {
                         complection(.success(tokenResult.token))
                     } else {
-                        complection(.failure(("Service.Error.DefaultMessage")))
+                        complection(.failure((SocialsAuth.defaultError)))
                     }
                 })
             } else {
-                complection(.failure(("Service.Error.DefaultMessage")))
+                complection(.failure((SocialsAuth.defaultError)))
             }
         }
     }
@@ -216,7 +216,7 @@ extension SocialsAuth {
             } else if let token = token {
                 complection(.success(token))
             } else {
-                complection(.failure(("Service.Error.DefaultMessage")))
+                complection(.failure((SocialsAuth.defaultError)))
             }
         })
     }
@@ -241,7 +241,7 @@ extension SocialsAuth {
             } else if let loginResult = loginResult {
                 resultHandler(.success(loginResult))
             } else {
-                resultHandler(.failure("Service.Error.DefaultMessage"))
+                resultHandler(.failure(SocialsAuth.defaultError))
             }
         }
     }
@@ -255,7 +255,7 @@ extension SocialsAuth: GIDSignInDelegate {
                 complection(.failure(error))
             } else {
                 guard let authentication = user.authentication else {
-                    complection(.failure("Service.Error.DefaultMessage"))
+                    complection(.failure(SocialsAuth.defaultError))
                     return
                 }
                 let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,

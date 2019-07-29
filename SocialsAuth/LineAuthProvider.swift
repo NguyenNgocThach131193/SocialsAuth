@@ -12,7 +12,7 @@ import FirebaseAuth
 
 public class LineAuthProvider: AuthCredential {
     
-    var loginResult: LoginResult
+    public var loginResult: LoginResult
     init(loginResult: LoginResult) {
         self.loginResult = loginResult
     }
