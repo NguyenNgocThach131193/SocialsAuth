@@ -167,45 +167,40 @@ extension SocialsAuth {
 // MARK: - Firebase auth functions
 extension SocialsAuth {
     public typealias FirebaseAuthCompletion = ResultHandler<String>
-    public func firebaseAuth(credential: AuthCredential, complection: @escaping FirebaseAuthCompletion) {
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            if let error = error {
-                complection(.failure(error))
-            } else if let authResult = authResult {
-                let user = authResult.user
-                user.getIDTokenResult(completion: { (tokenResult, error) in
-                    if let error = error {
-                        complection(.failure(error))
-                    } else if let tokenResult = tokenResult {
-                        complection(.success(tokenResult.token))
-                    } else {
-                        complection(.failure((SocialsAuth.defaultError)))
-                    }
-                })
-            } else {
-                complection(.failure((SocialsAuth.defaultError)))
-            }
+    public func firebaseAuth(credential: AuthCredential, fetchAccessToken: Bool, complection: @escaping FirebaseAuthCompletion) {
+        Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
+            self?.handleAuthResult(input: (authResult: authResult, error: error), fetchAccessToken: fetchAccessToken, complection: complection)
         }
     }
     
-    public func firebaseAuth(withCustomToken: String, complection: @escaping FirebaseAuthCompletion) {
-        Auth.auth().signIn(withCustomToken: withCustomToken) { (authResult, error) in
-            if let error = error {
-                complection(.failure(error))
-            } else if let authResult = authResult {
-                let user = authResult.user
-                user.getIDTokenResult(completion: { (tokenResult, error) in
-                    if let error = error {
-                        complection(.failure(error))
-                    } else if let tokenResult = tokenResult {
-                        complection(.success(tokenResult.token))
-                    } else {
-                        complection(.failure((SocialsAuth.defaultError)))
-                    }
-                })
-            } else {
-                complection(.failure((SocialsAuth.defaultError)))
-            }
+    public func firebaseAuth(withCustomToken: String, fetchAccessToken: Bool, complection: @escaping FirebaseAuthCompletion) {
+        Auth.auth().signIn(withCustomToken: withCustomToken) { [weak self] (authResult, error) in
+            self?.handleAuthResult(input: (authResult: authResult, error: error), fetchAccessToken: fetchAccessToken, complection: complection)
+        }
+    }
+    
+    private func handleAuthResult(input: (authResult: AuthDataResult?, error: Error?), fetchAccessToken: Bool, complection: @escaping FirebaseAuthCompletion) {
+        if let error = input.error {
+            complection(.failure(error))
+        } else if let authResult = input.authResult {
+            let user = authResult.user
+            user.getIDTokenResult(completion: { (tokenResult, error) in
+                if fetchAccessToken {
+                    user.getIDTokenResult(completion: { (tokenResult, error) in
+                        if let error = error {
+                            complection(.failure(error))
+                        } else if let tokenResult = tokenResult {
+                            complection(.success(tokenResult.token))
+                        } else {
+                            complection(.failure((SocialsAuth.defaultError)))
+                        }
+                    })
+                } else {
+                    complection(.success(user.uid))
+                }
+            })
+        } else {
+            complection(.failure((SocialsAuth.defaultError)))
         }
     }
     

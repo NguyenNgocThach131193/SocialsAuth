@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "SocialsAuth"
-  spec.version      = "1.0.8"
+  spec.version      = "1.0.9"
   spec.summary      = "A framework can support socials authentication"
   spec.description  = "A framework can support socials authentication"
 
@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
   spec.author       = { "thachnn" => "" }
   spec.platform     = :ios, "10.0"
   spec.source       = { :path => '.' }
-  spec.source       = { :git => "https://github.com/NguyenNgocThach131193/SocialsAuth.git", :tag => "1.0.8" }
+  spec.source       = { :git => "https://github.com/NguyenNgocThach131193/SocialsAuth.git", :tag => "1.0.9" }
   spec.source_files  = "SocialsAuth"
   spec.exclude_files = "Classes/Exclude" 
   spec.framework  = "UIKit"
