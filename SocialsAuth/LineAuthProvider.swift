@@ -12,12 +12,12 @@ import FirebaseAuth
 
 public class LineAuthProvider: AuthCredential {
     
-    private var accessToken: String
-    init(accessToken: String) {
-        self.accessToken = accessToken
+    private var loginResult: LoginResult
+    init(loginResult: LoginResult) {
+        self.loginResult = loginResult
     }
     
-    static func credential(accessToken: LoginResult) -> LineAuthProvider {
-        return LineAuthProvider(accessToken: accessToken.accessToken.value)
+    static func credential(loginResult: LoginResult) -> LineAuthProvider {
+        return LineAuthProvider(loginResult: loginResult)
     }
 }

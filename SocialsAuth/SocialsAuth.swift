@@ -126,7 +126,7 @@ extension SocialsAuth {
         LoginManager.shared.login(permissions: [.profile, .openID, .email], in: presenter, options: []) { result in
             switch result {
             case .success(let loginResult):
-                let credential = LineAuthProvider.credential(accessToken: loginResult)
+                let credential = LineAuthProvider.credential(loginResult: loginResult)
                 complection(.success(credential))
             case .failure(let error):
                 complection(.failure(error))
