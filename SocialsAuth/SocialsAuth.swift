@@ -76,9 +76,7 @@ extension SocialsAuth {
     public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         let canLoginGoogle = GIDSignIn
             .sharedInstance()
-            .handle(url,
-                    sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                    annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+            .handle(url)
         let canLoginFacebook = ApplicationDelegate
             .shared
             .application(app,
@@ -95,9 +93,9 @@ extension SocialsAuth {
 
 // MARK: - Auth socials public functions
 extension SocialsAuth {
-    public func loginWithGoogle(presenter: GIDSignInUIDelegate, complection: @escaping LoginCompletion) {
+    public func loginWithGoogle(presenter: UIViewController, complection: @escaping LoginCompletion) {
         self.loginCompletion = complection
-        GIDSignIn.sharedInstance().uiDelegate = presenter
+        GIDSignIn.sharedInstance()?.presentingViewController = presenter
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().signIn()
     }
