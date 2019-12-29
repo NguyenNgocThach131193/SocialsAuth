@@ -240,7 +240,7 @@ extension SocialsAuth: GIDSignInDelegate {
 
 // MARK: - Logout
 extension SocialsAuth {
-    func signOut() {
+    public func signOut() {
         try? Auth.auth().signOut()
         if AccessToken.current != nil {
             LoginManager().logOut()
