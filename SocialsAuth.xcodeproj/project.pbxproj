@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		DBC4ECB122EAFE9100EEC37C /* SocialsAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = DBC4ECAF22EAFE9100EEC37C /* SocialsAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBC4ECB822EAFE9A00EEC37C /* SocialsAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC4ECB722EAFE9A00EEC37C /* SocialsAuth.swift */; };
+		DBC4ECF222ED5BD300EEC37C /* SocialsAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC4ECF122ED5BD300EEC37C /* SocialsAuthResult.swift */; };
+		DBC4ECF422ED5BFB00EEC37C /* LineAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC4ECF322ED5BFB00EEC37C /* LineAuthProvider.swift */; };
+		DBC4ECF622ED5C1700EEC37C /* SocialsAuth+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC4ECF522ED5C1700EEC37C /* SocialsAuth+Error.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,6 +19,9 @@
 		DBC4ECAF22EAFE9100EEC37C /* SocialsAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialsAuth.h; sourceTree = "<group>"; };
 		DBC4ECB022EAFE9100EEC37C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBC4ECB722EAFE9A00EEC37C /* SocialsAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialsAuth.swift; sourceTree = "<group>"; };
+		DBC4ECF122ED5BD300EEC37C /* SocialsAuthResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialsAuthResult.swift; sourceTree = "<group>"; };
+		DBC4ECF322ED5BFB00EEC37C /* LineAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineAuthProvider.swift; sourceTree = "<group>"; };
+		DBC4ECF522ED5C1700EEC37C /* SocialsAuth+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocialsAuth+Error.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,8 +55,11 @@
 			isa = PBXGroup;
 			children = (
 				DBC4ECB722EAFE9A00EEC37C /* SocialsAuth.swift */,
+				DBC4ECF522ED5C1700EEC37C /* SocialsAuth+Error.swift */,
 				DBC4ECAF22EAFE9100EEC37C /* SocialsAuth.h */,
 				DBC4ECB022EAFE9100EEC37C /* Info.plist */,
+				DBC4ECF122ED5BD300EEC37C /* SocialsAuthResult.swift */,
+				DBC4ECF322ED5BFB00EEC37C /* LineAuthProvider.swift */,
 			);
 			path = SocialsAuth;
 			sourceTree = "<group>";
@@ -135,6 +144,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBC4ECB822EAFE9A00EEC37C /* SocialsAuth.swift in Sources */,
+				DBC4ECF222ED5BD300EEC37C /* SocialsAuthResult.swift in Sources */,
+				DBC4ECF422ED5BFB00EEC37C /* LineAuthProvider.swift in Sources */,
+				DBC4ECF622ED5C1700EEC37C /* SocialsAuth+Error.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

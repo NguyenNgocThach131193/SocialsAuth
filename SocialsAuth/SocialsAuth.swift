@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import LineSDK
 import GoogleSignIn
-import TwitterKit
 import FirebaseAuth
 import FBSDKLoginKit
 
@@ -43,23 +42,13 @@ public class SocialsAuth: NSObject {
     
     public typealias LoginCompletion = ResultHandler<SocialsAuthCredential>
     public var loginCompletion: LoginCompletion?
+    private var twitterProvider: OAuthProvider?
 }
 
 // MARK: - Setup functions
 extension SocialsAuth {
     public func enableGoogleAuth(clientID: String) {
         GIDSignIn.sharedInstance().clientID = clientID
-    }
-    
-    public func enableTwitterAuth(consumerKey: String, consumerSecret: String) {
-        let shared = TWTRTwitter.sharedInstance()
-        shared.start(withConsumerKey: consumerKey, consumerSecret: consumerSecret)
-        let sessionStore = shared.sessionStore
-        if sessionStore.hasLoggedInUsers() {
-            if let userID = sessionStore.session()?.userID {
-                sessionStore.logOutUserID(userID)
-            }
-        }
     }
     
     public func enableLINEAuth(channelID: String, universalLinkURL: URL? = nil) {
@@ -83,11 +72,10 @@ extension SocialsAuth {
                          open: url,
                          sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
                          annotation: options[UIApplication.OpenURLOptionsKey.annotation])
-        let canLoginTwitter = TWTRTwitter.sharedInstance().application(app, open: url, options: options)
         
         let canLoginLine = LoginManager.shared.application(app, open: url, options: options)
         
-        return canLoginGoogle || canLoginFacebook || canLoginTwitter || canLoginLine
+        return canLoginGoogle || canLoginFacebook || canLoginLine
     }
 }
 
@@ -121,7 +109,10 @@ extension SocialsAuth {
     }
     
     public func loginWithLine(presenter: UIViewController, complection: @escaping LoginCompletion) {
-        LoginManager.shared.login(permissions: [.profile, .openID, .email], in: presenter, options: []) { result in
+        let profile = LoginPermission.profile
+        let email = LoginPermission.email
+        let openID = LoginPermission.openID
+        LoginManager.shared.login(permissions: [profile, email, openID], in: presenter) { result in
             switch result {
             case .success(let loginResult):
                 let credential = LineAuthProvider.credential(loginResult: loginResult)
@@ -132,23 +123,10 @@ extension SocialsAuth {
         }
     }
     
-    public func loginWithTwitter(presenter: UIViewController, complection: @escaping LoginCompletion) {
-        TWTRTwitter.sharedInstance().logIn { (session, error) in
-            if let error = error {
-                complection(.failure(error))
-            } else if let session = session {
-                let credential = TwitterAuthProvider.credential(withToken: session.authToken, secret: session.authTokenSecret)
-                complection(.success(credential))
-            } else {
-                complection(.failure(SocialsAuth.defaultError))
-            }
-        }
-    }
-    
     /// https://firebase.google.com/docs/auth/ios/twitter-login
     ///
     /// - Parameter complection
-    func loginWithTwitterNew(complection: @escaping LoginCompletion) {
+    func loginWithTwitter(complection: @escaping LoginCompletion) {
         let provider = OAuthProvider(providerID: TwitterAuthProviderID)
         provider.getCredentialWith(nil) { (credential, error) in
             if let error = error {
@@ -159,6 +137,7 @@ extension SocialsAuth {
                 complection(.failure(SocialsAuth.defaultError))
             }
         }
+        self.twitterProvider = provider
     }
 }
 
@@ -227,7 +206,6 @@ extension SocialsAuth {
     internal static func loginViaFacebook(presenter: UIViewController, _ resultHandler: @escaping ResultHandler<LoginManagerLoginResult>) {
         let loginManager = LoginManager()
         loginManager.defaultAudience = .friends
-        loginManager.loginBehavior = .browser
         loginManager.logIn(permissions: ["public_profile", "email"], from: presenter) { (loginResult, error) in
             if let error = error {
                 resultHandler(.failure(error))
@@ -251,10 +229,21 @@ extension SocialsAuth: GIDSignInDelegate {
                     complection(.failure(SocialsAuth.defaultError))
                     return
                 }
-                let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-                                                               accessToken: authentication.accessToken)
+                let credential = GoogleAuthProvider.credential(
+                    withIDToken: authentication.idToken,
+                    accessToken: authentication.accessToken)
                 complection(.success(credential))
             }
+        }
+    }
+}
+
+// MARK: - Logout
+extension SocialsAuth {
+    func signOut() {
+        try? Auth.auth().signOut()
+        if AccessToken.current != nil {
+            LoginManager().logOut()
         }
     }
 }
