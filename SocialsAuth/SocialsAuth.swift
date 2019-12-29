@@ -205,7 +205,6 @@ extension SocialsAuth {
 extension SocialsAuth {
     internal static func loginViaFacebook(presenter: UIViewController, _ resultHandler: @escaping ResultHandler<LoginManagerLoginResult>) {
         let loginManager = LoginManager()
-        loginManager.defaultAudience = .friends
         loginManager.logIn(permissions: ["public_profile", "email"], from: presenter) { (loginResult, error) in
             if let error = error {
                 resultHandler(.failure(error))
