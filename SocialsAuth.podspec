@@ -26,6 +26,7 @@ Pod::Spec.new do |spec|
   spec.dependency "GoogleSignIn"
   spec.dependency "FBSDKLoginKit"
   spec.dependency "LineSDKSwift"
+  spec.dependency "TwitterKit"
   spec.static_framework = true
   spec.swift_version = "5.0.0" 
 end

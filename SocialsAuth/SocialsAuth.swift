@@ -1,6 +1,6 @@
 //
 //  AuthenticationManager.swift
-//  Exersice Supplies
+//  
 //
 //  Created by Thach Nguyen Ngoc on 3/29/19.
 //  Copyright © 2019 Thach Nguyen Ngoc. All rights reserved.
@@ -12,6 +12,7 @@ import LineSDK
 import GoogleSignIn
 import FirebaseAuth
 import FBSDKLoginKit
+import TwitterKit
 
 private protocol DictionaryProtocol {
     var dictionary: [String : Any] { get }
@@ -75,7 +76,9 @@ extension SocialsAuth {
         
         let canLoginLine = LoginManager.shared.application(app, open: url, options: options)
         
-        return canLoginGoogle || canLoginFacebook || canLoginLine
+        let canLoginTwitter = TWTRTwitter.sharedInstance().application(app, open: url, options: options)
+        
+        return canLoginGoogle || canLoginFacebook || canLoginLine || canLoginTwitter
     }
 }
 
@@ -119,6 +122,30 @@ extension SocialsAuth {
                 complection(.success(credential))
             case .failure(let error):
                 complection(.failure(error))
+            }
+        }
+    }
+    
+    public func enableTwitterAuth(consumerKey: String, consumerSecret: String) {
+        let shared = TWTRTwitter.sharedInstance()
+        shared.start(withConsumerKey: consumerKey, consumerSecret: consumerSecret)
+        let sessionStore = shared.sessionStore
+        if sessionStore.hasLoggedInUsers() {
+            if let userID = sessionStore.session()?.userID {
+                sessionStore.logOutUserID(userID)
+            }
+        }
+    }
+    
+    public func loginWithTwitter(presenter: UIViewController, complection: @escaping LoginCompletion) {
+        TWTRTwitter.sharedInstance().logIn { (session, error) in
+            if let error = error {
+                complection(.failure(error))
+            } else if let session = session {
+                let credential = TwitterAuthProvider.credential(withToken: session.authToken, secret: session.authTokenSecret)
+                complection(.success(credential))
+            } else {
+                complection(.failure(SocialsAuth.defaultError))
             }
         }
     }
@@ -239,7 +266,7 @@ extension SocialsAuth: GIDSignInDelegate {
 
 // MARK: - Logout
 extension SocialsAuth {
-    public func signOut() {
+    func signOut() {
         try? Auth.auth().signOut()
         if AccessToken.current != nil {
             LoginManager().logOut()
