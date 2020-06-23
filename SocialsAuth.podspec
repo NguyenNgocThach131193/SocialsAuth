@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "SocialsAuth"
-  spec.version      = "1.1.0"
+  spec.version      = "1.1.1"
   spec.summary      = "A framework can support socials authentication"
   spec.description  = "A framework can support socials authentication"
 
@@ -26,7 +26,7 @@ Pod::Spec.new do |spec|
   spec.dependency "GoogleSignIn"
   spec.dependency "FBSDKLoginKit"
   spec.dependency "LineSDKSwift"
-  spec.dependency "TwitterKit"
+  spec.dependency "TwitterKit5"
   spec.static_framework = true
   spec.swift_version = "5.0.0" 
 end
